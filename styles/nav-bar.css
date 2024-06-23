@@ -1,0 +1,26 @@
+.top-nav-bar {
+    /* position: fixed; */
+    /* top: 0;
+    left: 0; */
+    /* width: 100%; */
+    border-radius: 5px;
+    background-color: #bebebe;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    color: white;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.top-nav-bar li {
+    padding: 0.5rem;
+}
+
+.top-nav-bar .active {
+    color: black;
+    font-weight: bold;
+
+}
