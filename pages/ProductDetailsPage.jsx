@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import "../styles/product-detail.css"
+import Button from '../components/Button';
 
 const PRODUCTS_URL = "http://localhost:3000/api/product"
 
@@ -21,7 +22,7 @@ function ProductDetailsPage() {
                 const res = await axios.get(`${PRODUCTS_URL}/${productId}`);
                 setProduct(res.data)
             } catch (error) {
-                console.log(err);
+                console.log(error);
             }
         }
         getData()
@@ -38,10 +39,10 @@ function ProductDetailsPage() {
                 <div className="product-info">
                     <p>Price : ${product.price}</p>
                     <p>Category : {product.category}</p>
+                    <p>Quantity : {product.quantity}</p>
                 </div>
                 <div className="product-buttons">
-                    <button onClick={() => { handleGoBack() }}>Back</button>
-
+                    <Button onClick={() => { handleGoBack() }}>Back</Button>
                 </div>
             </div>
         )

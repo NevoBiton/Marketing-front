@@ -11,14 +11,18 @@ h1 {
 }
 
 .products-list {
-    max-width: 70vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1rem;
+    max-width: 80vw;
     list-style-type: none;
     padding: 0;
 }
 
 .product-item {
-    display: flex;
-    justify-content: space-around;
+    /* display: flex; */
+    justify-content: space-between;
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
@@ -29,4 +33,17 @@ h1 {
 
 .product-item:hover {
     background-color: #f9f9f9;
+}
+
+.product-item-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.product-item-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
 }

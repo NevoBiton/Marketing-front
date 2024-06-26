@@ -19,6 +19,7 @@ const useFetch = (url, options = {}) => {
           ...options,
           cancelToken: source.token,
         });
+        console.log(response.data);
         setData(response.data);
       } catch (error) {
         if (axios.isCancel(error)) {

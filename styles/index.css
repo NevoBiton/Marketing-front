@@ -3,3 +3,41 @@
 body {
     font-family: "Hind", sans-serif;
 }
+
+
+/* Snackbar container */
+/* Snackbar.css */
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-right: 16px;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: -300px;
+    /* Start off-screen */
+    top: 30px;
+    font-size: 17px;
+    opacity: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s, right 0.5s;
+}
+
+#snackbar.show {
+    visibility: visible;
+    opacity: 1;
+    right: 30px;
+    /* Slide in to this position */
+}
+
+#snackbar.success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+#snackbar.error {
+    background-color: #f44336;
+    color: #fff;
+}

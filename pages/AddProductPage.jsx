@@ -1,11 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AddProductForm from '../components/AddProductForm'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { makeId } from '../utiles/makeId';
+import Snackbar from '../components/SnackBar';
 
-const PRODUCTS_URL = "http://localhost:3000/api/product/add"
+
+const PRODUCTS_URL = "http://localhost:3000/api/product"
 
 function AddProductPage() {
+
+    const [snackbar, setSnackbar] = useState({ message: '', type: '', visible: false });
+    async function showSnackbar(message, type) {
+        setSnackbar({ message, type, visible: true });
+    }
 
     useEffect(() => {
 
@@ -16,29 +24,21 @@ function AddProductPage() {
     const nameRef = useRef();
     const priceRef = useRef(null);
     const categoryRef = useRef(null);
-
-    function makeId(length) {
-        let result = "";
-        const characters =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        const charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
+    const quantityRef = useRef(null);
 
     async function addProduct(ev) {
         ev.preventDefault();
         try {
             const newProduct = {
-                id: makeId(6),
                 name: nameRef.current.value,
                 price: priceRef.current.value,
+                quantity: quantityRef.current.value,
                 category: categoryRef.current.value
             };
             await addProductToDataBase(newProduct);
-            navigate('/product')
+            showSnackbar('Product Added', 'success');
+            setTimeout(() => { navigate('/product') }, 600)
+
         } catch (error) {
             console.log("Error adding post:", error);
         }
@@ -53,15 +53,18 @@ function AddProductPage() {
         }
     }
 
-
-
     return (
-        <div><AddProductForm
-            addProduct={addProduct}
-            nameRef={nameRef}
-            priceRef={priceRef}
-            categoryRef={categoryRef}
-        /></div>
+        <div>
+            <AddProductForm
+                addProduct={addProduct}
+                nameRef={nameRef}
+                priceRef={priceRef}
+                categoryRef={categoryRef}
+                quantityRef={quantityRef}
+            />
+            <Snackbar message={snackbar.message} type={snackbar.type} visible={snackbar.visible} />
+
+        </div>
     )
 }
 
