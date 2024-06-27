@@ -1,0 +1,31 @@
+/* Default styles for InputComponent */
+.input-component {
+    padding: 4px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    font-size: 16px;
+}
+
+/* Focus state */
+.input-component:focus {
+    border-color: #61dafb;
+    outline: none;
+}
+
+/* Placeholder styling */
+.input-component::placeholder {
+    color: #aaa;
+}
+
+.input-component[type="submit"] {
+    color: white;
+    cursor: pointer;
+    width: fit-content;
+    padding: 4px 8px;
+}
+
+.input-component[type="submit"]:hover {
+    background-color: #4592AF;
+}

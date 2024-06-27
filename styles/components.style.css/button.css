@@ -1,0 +1,22 @@
+/* Basic button style */
+.button-component {
+    background-color: #93DEFF;
+    border: none;
+    padding: 4px 8px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+
+.button-component:hover {
+    background-color: #4592AF;
+}
+
+
+.button-component:active {
+    background-color: #29435C;
+    transform: translateY(1px);
+}

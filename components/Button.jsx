@@ -1,8 +1,15 @@
 import React from 'react'
+import "../styles/components.style.css/button.css"
 
-function Button({ children, onClick }) {
+function Button({ children, onClick, className }) {
+  const defaultClass = 'button-component';
   return (
-    <><button onClick={onClick} style={{ padding: "0.2rem 0.8rem", border: "none", cursor: "pointer", borderRadius: "5px" }}>{children}</button></>
+    <><button
+      onClick={onClick}
+      className={`${defaultClass} ${className}`}
+    >
+      {children}
+    </button></>
   )
 }
 

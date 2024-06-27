@@ -1,25 +1,29 @@
-import { React, useState, useEffect, useMemo } from 'react';
+import { React, useState, useEffect, useMemo, useRef } from 'react';
 import useFetch from '../hooks/useFetchProducts';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/products-feed.css"
 import Button from '../components/Button';
 import Snackbar from '../components/SnackBar';
-import SearchBar from '../components/SearchBar';
+import PagingComponent from '../components/PagingComponent';
+import SearchAndFilterComponent from '../components/SearchAndFilterComponent';
+import PriceRangeSlider from '../components/PriceRangeSlider';
+import RenderProductComponent from '../components/RenderProductComponent';
 
 
 
 const PRODUCTS_URL = "http://localhost:3000/api/product"
 
+const productsPerPage = 6
+
 function ProductFeedPage() {
 
-    function handlePagination(ev) {
-        const value = ev.target.value
-        searchParams.set("page", value)
-        setSearchParams(searchParams)
-    }
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [totalProducts, setTotalProducts] = useState(0);
 
     function handleFilterChange(ev) {
+        searchParams.set("page", "1");
         const inputName = ev.target.name
 
         if (ev.target.type === "checkbox") {
@@ -33,31 +37,75 @@ function ProductFeedPage() {
         }
         setSearchParams(searchParams)
     }
-    const [searchParams, setSearchParams] = useSearchParams();
+
+
+
+
+    const currentPage = parseInt(searchParams.get("page") || "1");
+    let totalPages = Math.ceil(totalProducts / productsPerPage);
+
+    function handlePagination(change) {
+        const newPage = currentPage + change;
+        console.log(newPage);
+
+        if (newPage > totalPages) {
+            return;
+        }
+        if (newPage >= 1) {
+            searchParams.set("page", newPage.toString());
+            setSearchParams(searchParams);
+        }
+    }
+
     const options = {
         params: {
             name: searchParams.get("name"),
             minPrice: searchParams.get("minPrice"),
+            maxPrice: searchParams.get("maxPrice"),
             page: searchParams.get("page"),
             inStock: searchParams.get("inStock")
         }
     }
 
-    const { data, error, loading, setData } = useFetch(PRODUCTS_URL, options);
+    const { data, loading, setLoading, setData } = useFetch(PRODUCTS_URL, options);
+
+    console.log(data);
 
     useEffect(() => {
+        setLoading(true);
 
-        const fetchData = async () => {
+        const source = axios.CancelToken.source();
+
+        async function fetchData() {
             try {
-                const response = await axios.get(PRODUCTS_URL, options);
+                const [response, countRes] = await Promise.all([
+                    axios.get(PRODUCTS_URL, {
+                        cancelToken: source.token,
+                        params: searchParams
+                    }),
+                    axios.get(`${PRODUCTS_URL}/count`, {
+                        cancelToken: source.token,
+                        params: searchParams
+                    })
+                ]);
+
+                setTotalProducts(countRes.data.count);
                 setData(response.data);
             } catch (error) {
-                console.error("Error fetching products:", error);
+                if (axios.isCancel(error)) {
+                    console.log("Request canceled:", error.message);
+                } else {
+                    console.error("Error fetching products:", error);
+                }
+            } finally {
+                setLoading(false);
             }
-        };
+        }
         fetchData();
-
-    }, [searchParams]);
+        return () => {
+            source.cancel("Operation canceled by the user.");
+        };
+    }, [searchParams, setData, setLoading]);
 
     const [snackbar, setSnackbar] = useState({ message: '', type: '', visible: false });
     async function showSnackbar(message, type) {
@@ -84,65 +132,32 @@ function ProductFeedPage() {
         }
     }
 
+
+
     return (
         <>
             <div className='main-wrapper'>
-                {/* <SearchBar /> */}
-                <div>
-                    <label htmlFor="name">Search by name :</label>
-                    <input
-                        id='name'
-                        name='name'
-                        type="text"
-                        value={searchParams.get("name") || ""}
-                        onChange={handleFilterChange}
-
-                    />
-                    <label htmlFor="name">Min price :</label>
-                    <input
-                        id='minPrice'
-                        name='minPrice'
-                        type="number"
-                        value={searchParams.get("minPrice") || ""}
-                        onChange={handleFilterChange}
-
-                    />
-                    <label htmlFor="inStock">Just in Stock :</label>
-                    <input
-                        id='inStock'
-                        name='inStock'
-                        type="checkbox"
-                        value={searchParams.get("inStock") === "true"}
-                        onChange={handleFilterChange}
-                    />
-                    <label htmlFor="name">Page number :</label>
-                    <input
-                        id='page'
-                        name='page'
-                        min={1}
-                        type="number"
-                        value={searchParams.get("page") || "1"}
-                        onChange={handlePagination}
-
-                    />
-
-                </div>
+                {/* <PriceRangeSlider
+                    setSearchParams={setSearchParams}
+                    searchParams={searchParams}
+                /> */}
+                <SearchAndFilterComponent
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                    handleFilterChange={handleFilterChange}
+                />
                 <h1>Products</h1>
-                <ul className='products-list'>
-                    {data?.map(product => (
-                        <li key={product._id} className='product-item'>
-                            <div className='product-item-titles'>
-                                <p><b>Product</b> : {product.name}</p>
-                                <p><b>Price</b> : ${product.price}</p>
-                            </div>
-                            <div className='product-item-buttons'>
-                                <p><NavLink to={`/product/${product._id}`}><Button>Info</Button></NavLink></p>
-                                <Button onClick={() => { deleteProduct(product._id) }}>Delete</Button>
-                            </div>
-
-                        </li>
-                    ))}
-                </ul>
+                <PagingComponent
+                    data={data}
+                    searchParams={searchParams}
+                    handleFilterChange={handleFilterChange}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handlePagination={handlePagination}
+                />
+                <RenderProductComponent
+                    data={data}
+                    deleteProduct={deleteProduct} />
                 <Snackbar message={snackbar.message} type={snackbar.type} visible={snackbar.visible} />
             </div>
         </>

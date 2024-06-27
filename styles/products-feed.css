@@ -4,12 +4,6 @@
     padding: 20px;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
 .products-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -21,7 +15,9 @@ h1 {
 }
 
 .product-item {
-    /* display: flex; */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     justify-content: space-between;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -37,7 +33,7 @@ h1 {
 
 .product-item-buttons {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 0.5rem;
 }
 
@@ -46,4 +42,23 @@ h1 {
     flex-direction: column;
     gap: 0.5rem;
 
+}
+
+.paging-buttons {
+    display: flex;
+    gap: 1rem;
+    padding: 0 0 1rem 0;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.in-stoke-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.empty-products-message {
+    padding-top: 1rem;
+    font-size: 1.5rem;
 }

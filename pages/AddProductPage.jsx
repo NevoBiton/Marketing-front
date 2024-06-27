@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import AddProductForm from '../components/AddProductForm'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { makeId } from '../utiles/makeId';
 import Snackbar from '../components/SnackBar';
 
 

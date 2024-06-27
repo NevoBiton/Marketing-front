@@ -7,6 +7,8 @@ import TopNavBar from "../components/TopNavBar";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import AddProductPage from "../pages/AddProductPage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
 
 const PRODUCTS_URL = "http://localhost:3000/api/product"
 
@@ -19,9 +21,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product" element={<ProductFeedPage />} />
-
           <Route path="/product/:productId" element={< ProductDetailsPage />} />
           <Route path="/add" element={<AddProductPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={< NotFoundPage />} />
         </Routes>
       </Router>

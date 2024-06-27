@@ -4,7 +4,7 @@
     left: 0; */
     /* width: 100%; */
     border-radius: 5px;
-    background-color: #E7F0DC;
+    background-color: #93DEFF;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     list-style: none;
@@ -15,8 +15,10 @@
     margin: 0;
 }
 
-.top-nav-bar li {
-    padding: 0.5rem;
+.top-nav-bar a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
 }
 
 .top-nav-bar .active {

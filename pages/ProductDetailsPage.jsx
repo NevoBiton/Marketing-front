@@ -35,8 +35,9 @@ function ProductDetailsPage() {
     } else {
         return (
             <div className="product-card">
-                <h2 className="product-title">Product title: {product.name}</h2>
+
                 <div className="product-info">
+                    <h2 className="product-title">Product title: {product.name}</h2>
                     <p>Price : ${product.price}</p>
                     <p>Category : {product.category}</p>
                     <p>Quantity : {product.quantity}</p>

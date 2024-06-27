@@ -30,6 +30,12 @@ function TopNavBar() {
                     <li>
                         <TopNavLink href="/add">Add Product</TopNavLink>
                     </li>
+                    <li>
+                        <TopNavLink href="/login">Login</TopNavLink>
+                    </li>
+                    <li>
+                        <TopNavLink href="/register">Register</TopNavLink>
+                    </li>
                 </ul>
             </nav>
         </>

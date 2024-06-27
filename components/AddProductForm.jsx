@@ -1,22 +1,61 @@
 import React from 'react'
-import "../styles/form.css"
+import "../styles/add-product-form.css"
+import InputComponent from './Input'
 
 function AddProductForm(props) {
+
     return (
-        <form onSubmit={props.addProduct} style={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="name">Name :</label>
-            <input required ref={props.nameRef} type="text" id='title' />
+        <form className='add-product-form' onSubmit={props.addProduct}>
 
-            <label htmlFor="price">Price :</label>
-            <input ref={props.priceRef} type="number" id='price' required />
+            <h1>Add Producta</h1>
 
-            <label htmlFor="quantity">Quantity :</label>
-            <input ref={props.quantityRef} type="number" id='quantity' required />
+            <div className='form-label-and-input'>
+                <label htmlFor="name">Name :</label>
+                <InputComponent
+                    type={"text"}
+                    placeholder={"Name"}
+                    ref={props.nameRef}
+                    id={"name"}
+                    required={"required"}
+                />
+            </div>
 
-            <label htmlFor="category">Category :</label>
-            <input ref={props.categoryRef} type="text" id='category' required />
+            <div className='form-label-and-input'>
+                <label htmlFor="price">Price :</label>
+                <InputComponent
+                    type={"number"}
+                    placeholder={"Price"}
+                    ref={props.priceRef}
+                    id={"price"}
+                    required={"required"}
+                />
+            </div>
 
-            <input type="submit" />
+            <div className='form-label-and-input'>   <label htmlFor="quantity">Quantity :</label>
+                <InputComponent
+                    type={"number"}
+                    placeholder={"Quantity"}
+                    ref={props.quantityRef}
+                    id={"quantity"}
+                    required={"required"}
+                />
+            </div>
+
+            <div className='form-label-and-input'>
+                <label htmlFor="category">Category :</label>
+                <InputComponent
+                    type={"text"}
+                    placeholder={"Category"}
+                    ref={props.categoryRef}
+                    id={"category"}
+                    required={"required"}
+                />
+            </div>
+
+            <InputComponent
+                type={"submit"}
+                className={"form-submit-button"}
+            />
         </form>
     )
 }
