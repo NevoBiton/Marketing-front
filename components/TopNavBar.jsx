@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import "../styles/nav-bar.css";
 import { UserContext } from "../src/contexts/UserContext";
+import Avatar from "./AvatarComponent";
 
 function TopNavBar() {
     const { loggedInUser, logOut, loading } = useContext(UserContext);
@@ -24,50 +25,70 @@ function TopNavBar() {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <p>Loading...</p>
+        )
     }
 
-    return (
-        <nav>
-            <ul className="top-nav-bar">
-                <li>
-                    <TopNavLink href="/">Home</TopNavLink>
-                </li>
-                <li>
-                    <TopNavLink href="/product">Products</TopNavLink>
-                </li>
-                <li>
-                    <TopNavLink href="/add">Add Product</TopNavLink>
-                </li>
-
-                {!loggedInUser ? ( // if statement to check what needed to show on the nav page
-                    <>
+    if (loggedInUser) {
+        return (
+            <nav>
+                <ul className="top-nav-bar">
+                    <div className="content-links">
+                        <li>
+                            <TopNavLink href="/">Home</TopNavLink>
+                        </li>
+                        <li>
+                            <TopNavLink href="/product">Products</TopNavLink>
+                        </li>
+                        <li>
+                            <TopNavLink href="/profile">Profile</TopNavLink>
+                        </li>
+                        <li>
+                            <TopNavLink href="/add">Add Product</TopNavLink>
+                        </li>
+                    </div>
+                    <div className="welcome-and-logout">
+                        <Avatar />
+                        <li>
+                            <span>Welcome, {loggedInUser.firstName}!</span>
+                        </li>
+                        <li>
+                            <a href="/" onClick={handleLogout}>Logout</a>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+        );
+    } else {
+        return (
+            <nav>
+                <ul className="top-nav-bar">
+                    <div className="content-links">
+                        <li>
+                            <TopNavLink href="/">Home</TopNavLink>
+                        </li>
+                        <li>
+                            <TopNavLink href="/product">Products</TopNavLink>
+                        </li>
+                    </div>
+                    <div className="login-and-register">
+                        <li>
+                            <span>Welcome, Guest!</span>
+                        </li>
                         <li>
                             <TopNavLink href="/login">Login</TopNavLink>
                         </li>
                         <li>
                             <TopNavLink href="/register">Register</TopNavLink>
                         </li>
-                    </>
-                ) : (
-                    <>
-                        <li>
-                            <TopNavLink href="/profile">Profile</TopNavLink>
-                        </li>
+                    </div>
+                </ul>
+            </nav>
+        );
+    }
 
-                        <div className="welcome-and-logout">
-                            <li>
-                                <span>Welcome, {LoggedUserName}!</span>
-                            </li>
-                            <li>
-                                <a href="/" onClick={handleLogout}>Logout</a>
-                            </li>
-                        </div>
-                    </>
-                )}
-            </ul>
-        </nav>
-    );
+
 }
 
 export default TopNavBar;

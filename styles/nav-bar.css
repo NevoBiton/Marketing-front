@@ -9,7 +9,7 @@
     padding: 1rem;
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    justify-content: space-between;
     color: white;
     opacity: 0.8;
     margin: 0;
@@ -27,6 +27,19 @@
 
 }
 
-.welcome-and-logout {
+.content-links {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.welcome-and-logout,
+.login-and-register {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.welcome-and-logout a {
+    color: black;
 }

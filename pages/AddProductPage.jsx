@@ -5,7 +5,7 @@ import axios from 'axios';
 import Snackbar from '../components/SnackBar';
 
 
-const PRODUCTS_URL = "http://localhost:3000/api/product"
+const PRODUCTS_URL_PROTECTED = "http://localhost:3000/api/protected"
 
 function AddProductPage() {
 
@@ -20,46 +20,62 @@ function AddProductPage() {
 
     const navigate = useNavigate()
 
-    const nameRef = useRef();
-    const priceRef = useRef(null);
-    const categoryRef = useRef(null);
-    const quantityRef = useRef(null);
-
-    async function addProduct(ev) {
+    async function handleAddProduct(ev) {
         ev.preventDefault();
+        const formData = new FormData(ev.target);
+
+        // Extract form data
+        const name = formData.get('name');
+        const price = formData.get('price');
+        const quantity = formData.get('quantity');
+        const categories = [];
+
+        if (formData.get("sport")) {
+            categories.push('sport');
+        }
+
+        if (formData.get("comedy")) {
+            categories.push('comedy');
+        }
+
+        const newProduct = {
+            name,
+            price,
+            quantity,
+            categories
+        };
+
+        console.log("Product Data:", newProduct);
+
+        await addProduct(newProduct)
+    }
+
+    async function addProduct(newProduct) {
         try {
-            const newProduct = {
-                name: nameRef.current.value,
-                price: priceRef.current.value,
-                quantity: quantityRef.current.value,
-                category: categoryRef.current.value
-            };
-            await addProductToDataBase(newProduct);
-            showSnackbar('Product Added', 'success');
-            setTimeout(() => { navigate('/product') }, 600)
+            const token = localStorage.getItem('token');
+
+            await axios.post(PRODUCTS_URL_PROTECTED, newProduct, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            setTimeout(() => navigate('/product'), 600);
+            console.log("Product Added!");
 
         } catch (error) {
-            console.log("Error adding post:", error);
+            console.error("Error adding product:", error);
         }
     }
 
-    async function addProductToDataBase(product) {
-        try {
-            const res = await axios.post(PRODUCTS_URL, product);
-            console.log("Product added:", res.data);
-        } catch (error) {
-            console.error("Error adding Product:", error);
-        }
-    }
+
+
+
 
     return (
         <div>
             <AddProductForm
-                addProduct={addProduct}
-                nameRef={nameRef}
-                priceRef={priceRef}
-                categoryRef={categoryRef}
-                quantityRef={quantityRef}
+                handleAddProduct={handleAddProduct}
             />
             <Snackbar message={snackbar.message} type={snackbar.type} visible={snackbar.visible} />
 

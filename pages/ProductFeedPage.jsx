@@ -11,6 +11,7 @@ import RenderProductComponent from '../components/RenderProductComponent';
 
 
 const PRODUCTS_URL = "http://localhost:3000/api/product"
+const PRODUCTS_PROTECTED_URL = "http://localhost:3000/api/protected"
 
 const productsPerPage = 6
 
@@ -99,7 +100,7 @@ function ProductFeedPage() {
         return () => {
             source.cancel("Operation canceled by the user.");
         };
-    }, [searchParams, setData, setLoading]);
+    }, [searchParams, setData, setLoading, data]);
 
 
 
@@ -120,8 +121,15 @@ function ProductFeedPage() {
     }
 
     async function deleteProductFromDataBase(productId) {
+
+        const token = localStorage.getItem('token');
         try {
-            const res = await axios.delete(`${PRODUCTS_URL}/${productId}`)
+            const res = await axios.delete(`${PRODUCTS_PROTECTED_URL}/${productId}`, {
+                headers: {
+                    Authorization: token
+                }
+            }
+            )
             console.log("Product removed:", res.data);
         } catch (error) {
             console.error("Error Delete Product from DB:", error);

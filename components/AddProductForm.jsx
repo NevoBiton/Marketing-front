@@ -5,7 +5,7 @@ import InputComponent from './Input'
 function AddProductForm(props) {
 
     return (
-        <form className='add-product-form' onSubmit={props.addProduct}>
+        <form className='add-product-form' onSubmit={props.handleAddProduct}>
 
             <h1>Add Producta</h1>
 
@@ -13,8 +13,8 @@ function AddProductForm(props) {
                 <label htmlFor="name">Name :</label>
                 <InputComponent
                     type={"text"}
+                    name="name"
                     placeholder={"Name"}
-                    ref={props.nameRef}
                     id={"name"}
                     required={"required"}
                 />
@@ -24,8 +24,8 @@ function AddProductForm(props) {
                 <label htmlFor="price">Price :</label>
                 <InputComponent
                     type={"number"}
+                    name="price"
                     placeholder={"Price"}
-                    ref={props.priceRef}
                     id={"price"}
                     required={"required"}
                 />
@@ -34,22 +34,22 @@ function AddProductForm(props) {
             <div className='form-label-and-input'>   <label htmlFor="quantity">Quantity :</label>
                 <InputComponent
                     type={"number"}
+                    name="quantity"
                     placeholder={"Quantity"}
-                    ref={props.quantityRef}
                     id={"quantity"}
                     required={"required"}
                 />
             </div>
-
-            <div className='form-label-and-input'>
-                <label htmlFor="category">Category :</label>
-                <InputComponent
-                    type={"text"}
-                    placeholder={"Category"}
-                    ref={props.categoryRef}
-                    id={"category"}
-                    required={"required"}
-                />
+            <div>
+                <h4>Categories :</h4>
+                <div>
+                    <label htmlFor="sport">Sport</label>
+                    <input type="checkbox" id='sport' name='sport' />
+                </div>
+                <div>
+                    <label htmlFor="comedy">Comedy</label>
+                    <input type="checkbox" id='comedy' name='comedy' />
+                </div>
             </div>
 
             <InputComponent
