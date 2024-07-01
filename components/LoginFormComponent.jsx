@@ -2,10 +2,10 @@ import React from 'react'
 import InputComponent from './Input'
 import "../styles/components.style.css/login-form.css"
 
-function LoginFormComponent() {
+function LoginFormComponent(props) {
     return (
         <div className='login-wrapper'>
-            <form className='login-form'>
+            <form className='login-form' onSubmit={props.handleLogin}>
 
                 <h1>Login</h1>
 
@@ -15,15 +15,17 @@ function LoginFormComponent() {
                         type={"text"}
                         placeholder={"Name"}
                         id={"name"}
+                        name={"username"}
                         required={"required"}
                     />
                 </div>
 
                 <div className='login-label-and-input'>   <label htmlFor="password">Password :</label>
                     <InputComponent
-                        type={"text"}
+                        type={"password"}
                         placeholder={"password"}
                         id={"password"}
+                        name={"password"}
                         required={"required"}
                     />
                 </div>

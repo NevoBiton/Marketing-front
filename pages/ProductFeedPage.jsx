@@ -1,13 +1,11 @@
 import { React, useState, useEffect, useMemo, useRef } from 'react';
 import useFetch from '../hooks/useFetchProducts';
-import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/products-feed.css"
-import Button from '../components/Button';
 import Snackbar from '../components/SnackBar';
 import PagingComponent from '../components/PagingComponent';
 import SearchAndFilterComponent from '../components/SearchAndFilterComponent';
-import PriceRangeSlider from '../components/PriceRangeSlider';
 import RenderProductComponent from '../components/RenderProductComponent';
 
 
@@ -18,7 +16,7 @@ const productsPerPage = 6
 
 function ProductFeedPage() {
 
-
+    const location = useLocation()
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalProducts, setTotalProducts] = useState(0);
 
@@ -38,15 +36,11 @@ function ProductFeedPage() {
         setSearchParams(searchParams)
     }
 
-
-
-
     const currentPage = parseInt(searchParams.get("page") || "1");
     let totalPages = Math.ceil(totalProducts / productsPerPage);
 
     function handlePagination(change) {
         const newPage = currentPage + change;
-        console.log(newPage);
 
         if (newPage > totalPages) {
             return;
@@ -67,11 +61,11 @@ function ProductFeedPage() {
         }
     }
 
-    const { data, loading, setLoading, setData } = useFetch(PRODUCTS_URL, options);
+    const { data, setLoading, setData } = useFetch(PRODUCTS_URL, options);
 
-    console.log(data);
 
     useEffect(() => {
+
         setLoading(true);
 
         const source = axios.CancelToken.source();
@@ -107,6 +101,8 @@ function ProductFeedPage() {
         };
     }, [searchParams, setData, setLoading]);
 
+
+
     const [snackbar, setSnackbar] = useState({ message: '', type: '', visible: false });
     async function showSnackbar(message, type) {
         setSnackbar({ message, type, visible: true });
@@ -137,10 +133,6 @@ function ProductFeedPage() {
     return (
         <>
             <div className='main-wrapper'>
-                {/* <PriceRangeSlider
-                    setSearchParams={setSearchParams}
-                    searchParams={searchParams}
-                /> */}
                 <SearchAndFilterComponent
                     searchParams={searchParams}
                     setSearchParams={setSearchParams}

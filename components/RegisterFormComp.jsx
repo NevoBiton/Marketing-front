@@ -2,10 +2,10 @@ import React from 'react'
 import InputComponent from './Input'
 import "../styles/components.style.css/register-form.css"
 
-function RegisterFormComp() {
+function RegisterFormComp(props) {
     return (
         <div>
-            <form className='register-form'>
+            <form className='register-form' onSubmit={props.handleRegister}>
 
                 <h1>Register</h1>
 
@@ -15,6 +15,7 @@ function RegisterFormComp() {
                         type={"text"}
                         placeholder={"Name"}
                         id={"fname"}
+                        name={"fname"}
                         required={"required"}
                     />
                 </div>
@@ -25,6 +26,7 @@ function RegisterFormComp() {
                         type={"text"}
                         placeholder={"Last name"}
                         id={"lname"}
+                        name={"lname"}
                         required={"required"}
                     />
                 </div>
@@ -35,16 +37,7 @@ function RegisterFormComp() {
                         type={"text"}
                         placeholder={"Username"}
                         id={"username"}
-                        required={"required"}
-                    />
-                </div>
-
-                <div className='register-label-and-input'>
-                    <label htmlFor="email">Email :</label>
-                    <InputComponent
-                        type={"email"}
-                        placeholder={"Email"}
-                        id={"email"}
+                        name={"username"}
                         required={"required"}
                     />
                 </div>
@@ -54,15 +47,7 @@ function RegisterFormComp() {
                         type={"password"}
                         placeholder={"Password"}
                         id={"password"}
-                        required={"required"}
-                    />
-                </div>
-
-                <div className='register-label-and-input'>   <label htmlFor="password">Confirm Password :</label>
-                    <InputComponent
-                        type={"password"}
-                        placeholder={"Confirm Password"}
-                        id={"password"}
+                        name={"password"}
                         required={"required"}
                     />
                 </div>

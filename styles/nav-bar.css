@@ -26,3 +26,7 @@
     font-weight: bold;
 
 }
+
+.welcome-and-logout {
+    display: flex;
+}
